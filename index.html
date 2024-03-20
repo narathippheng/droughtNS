@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!--ชื่อที่แสดงบนเว็บไซต์-->
-  <title>ระบบเตือนภัยพื้นที่เสี่ยงภัยดินถล่ม</title>
+  <title>ระบบเตือนภัยพื้นที่เสี่ยงภัยแล้งจังหวัดนครสวรรค์</title>
 
   <!--ทำการลิ้งไลบราลี่OpenLayer-->
   <link rel="stylesheet" href="./libs/v6.0.0-dist/ol.css">
@@ -14,7 +14,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="header">ระบบแสดงพื้นที่เสี่ยงการเกิดดินโคลนถล่มร่วมกับข้อมูลปริมาณน้ำฝนรายวันผ่านเครือข่ายอินเตอร์เน็ต ในพื้นที่ภาคเหนือ ประเทศไทย
+    <div class="header">ระบบแสดงพื้นที่เสี่ยงภัยแล้ง จังหวัดนครสวรรค์
     </div>
     <div class="grid-container">
       <div id="grid-1">  
@@ -22,8 +22,9 @@
           <div id="h2">
             ชั้นข้อมูล
           </div>
-          <input type='radio' name='baseLayerRadioButton' value="LandSlide" checked>พื้นที่เสี่ยงภัยดินถล่ม<br>          
-          <input type='radio' name='baseLayerRadioButton' value="LandSlide_daily">พื้นที่เสี่ยงวันนี้<br>
+          <input type='radio' name='baseLayerRadioButton' value="LandSlide" checked>ปริมาณน้ำฝน<br>
+          <input type='radio' name='baseLayerRadioButton' value="LandSlide_daily">ความชื้นสัมพัทธ์<br>
+          <input type='radio' name='baseLayerRadioButton' value="LandSlide_daily">อุณหภูมิอากาศ<br>
           <div id="local_time" style="font-size: small; font-weight: bold;"><br>&nbsp;</div>
           <script>
             function local_date(now_time) {
