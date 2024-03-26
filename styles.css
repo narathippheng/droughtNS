@@ -1,0 +1,62 @@
+*{
+    box-sizing: border-box;
+}
+
+body{ width: 100%;
+}
+
+.header{
+    color: white;
+    background-color: black;
+    font-style:normal;
+    font-size: larger;
+    text-align: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    
+}
+
+.map{
+    width: 100%;
+}
+
+
+.grid-container{
+    margin-top: 0.2rem;
+    padding-top: 0.2rem;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-rows:87vh;
+}
+
+#grid-1{
+    font-size: small;
+    font-style: normal;
+}
+
+#h2{
+    font-size: medium;
+    font-weight: bold;
+    max-width: 100%;
+    height: auto;
+    font-weight: 500;
+}
+
+.footer{
+    background-color: black;
+    color: aliceblue;
+    text-align: center;
+    padding-bottom: 0.5rem;
+}
+
+.sidebar{
+    font-style: normal;
+    margin-right: 0.3rem;
+}
+
+.locate {
+    top: 6em;
+    left: .5em;
+  }
