@@ -6,10 +6,10 @@ body{ width: 100%;
 }
 
 .header{
-    color: white;
-    background-color: black;
-    font-style:normal;
-    font-size: larger;
+    color: rgb(10, 177, 71);
+    background-color: orangered;
+    font-style:oblique;
+    font-size:x-large;
     text-align: center;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
@@ -45,8 +45,8 @@ body{ width: 100%;
 }
 
 .footer{
-    background-color: black;
-    color: aliceblue;
+    background-color: orangered;
+    color: black;
     text-align: center;
     padding-bottom: 0.5rem;
 }
