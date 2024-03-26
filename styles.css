@@ -7,17 +7,22 @@ body{ width: 100%;
 
 .header{
     color:black;
-    background-color: orangered;
-    font-style:normal;
-    font-size:x-large;
-    font-family: sans-serif;
+    background-color: orangered; 
     text-align: center;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    
+    padding-right: 1% ;
+    font-size: large; 
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
 }
+
+.icon-logo{
+    width: 3rem;
+    margin-left: 1rem ;
+    height: auto;
+    position:inherit;
+}
+
+
 
 .map{
     width: 100%;
