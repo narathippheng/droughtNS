@@ -28,13 +28,14 @@ body{ width: 100%;
     margin-top: 0.2rem;
     padding-top: 0.2rem;
     display: grid;
-    grid-template-columns: 25% 75%;
-    grid-template-rows:87vh;
+    grid-template-columns: 20% 80%;
+    grid-template-rows:90vh;
 }
 
 #grid-1{
-    font-size: small;
-    font-style: normal;
+    font-size:x-small;
+    font-style:normal;
+    background-color: whitesmoke;
 }
 
 #h2{

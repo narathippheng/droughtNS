@@ -41,17 +41,13 @@
               height: auto;
             }
           </style>
-          <img src= "https://landslide.gis-cdn.net/geoserver/Landslide/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=10&HEIGHT=5&LAYER=Landslide:Landslide_N"> <br> <br>
-          <input type='radio' name='baseLayerRadioButton' value="Rain_day">Rainfall daily(mm.)<br>
-          <img src= "https://landslide.gis-cdn.net/geoserver/Landslide/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=10&HEIGHT=5&LAYER=Landslide:Rain_Day"> <br> <br>
-          <input type="checkbox" name='rasterTileLayerCheckbox' value="PV" checked>Provine boundary<br> 
-          <input type="checkbox" name='rasterTileLayerCheckbox' value="AP">District boundary<br> 
-          <input type="checkbox" name='rasterTileLayerCheckbox' value="TN">Sub-district boundary<br> 
+          <input type="checkbox" name='rasterTileLayerCheckbox' value="TN">ขอบเขตตำบล<br> 
+          <input type="checkbox" name='rasterTileLayerCheckbox' value="AP" checked>ขอบเขตอำเภอ<br> 
+          
         </div>
       </div>
       <div class="grid-2">
         <div id='js-map' class='map'> </div>
-        <div id='div' class="div"></div>
       </div>
     </div>
     <div class="footer">ลิขสิทธิ์<br> สาขาวิชาภูมิศาสตร์ มหาวิทยาลัยราชภัฎนครสวรรค์<br>
