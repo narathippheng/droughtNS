@@ -29,11 +29,13 @@ const map = new ol.Map({
         url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
         params: {'LAYERS': 'droughtNS:Rainday7D', 'TILED': true},
         serverType: 'geoserver',
-        transition: 0.7
+        transition: 0
         }),
         visible: false,
-        title: 'ปริมาณน้ำฝนสะสม 7 วัน'
+        title: 'ปริมาณน้ำฝนสะสม 7 วัน',
+        opacity: 0.6
     }),
+    
     new ol.layer.Tile({
       source: new ol.source.TileWMS({
         url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
