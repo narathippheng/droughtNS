@@ -1,56 +1,81 @@
-var createTextStyle = function(feature, resolution, labelText, labelFont,
-                               labelFill, placement, bufferColor,
-                               bufferWidth) {
+/**
+ * @module ol/functions
+ */
 
-    if (feature.hide || !labelText) {
-        return; 
-    } 
+import {equals as arrayEquals} from './array.js';
 
-    if (bufferWidth == 0) {
-        var bufferStyle = null;
-    } else {
-        var bufferStyle = new ol.style.Stroke({
-            color: bufferColor,
-            width: bufferWidth
-        })
+/**
+ * Always returns true.
+ * @return {boolean} true.
+ */
+export function TRUE() {
+  return true;
+}
+
+/**
+ * Always returns false.
+ * @return {boolean} false.
+ */
+export function FALSE() {
+  return false;
+}
+
+/**
+ * A reusable function, used e.g. as a default for callbacks.
+ *
+ * @return {void} Nothing.
+ */
+export function VOID() {}
+
+/**
+ * Wrap a function in another function that remembers the last return.  If the
+ * returned function is called twice in a row with the same arguments and the same
+ * this object, it will return the value from the first call in the second call.
+ *
+ * @param {function(...any): ReturnType} fn The function to memoize.
+ * @return {function(...any): ReturnType} The memoized function.
+ * @template ReturnType
+ */
+export function memoizeOne(fn) {
+  let called = false;
+
+  /** @type {ReturnType} */
+  let lastResult;
+
+  /** @type {Array<any>} */
+  let lastArgs;
+
+  let lastThis;
+
+  return function () {
+    const nextArgs = Array.prototype.slice.call(arguments);
+    if (!called || this !== lastThis || !arrayEquals(nextArgs, lastArgs)) {
+      called = true;
+      lastThis = this;
+      lastArgs = nextArgs;
+      lastResult = fn.apply(this, arguments);
     }
-    
-    var textStyle = new ol.style.Text({
-        font: labelFont,
-        text: labelText,
-        textBaseline: "middle",
-        textAlign: "left",
-        offsetX: 8,
-        offsetY: 3,
-        placement: placement,
-        maxAngle: 0,
-        fill: new ol.style.Fill({
-          color: labelFill
-        }),
-        stroke: bufferStyle
-    });
+    return lastResult;
+  };
+}
 
-    return textStyle;
-};
-
-function stripe(stripeWidth, gapWidth, angle, color) {
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
-    canvas.width = screen.width;
-    canvas.height = stripeWidth + gapWidth;
-    context.fillStyle = color;
-    context.lineWidth = stripeWidth;
-    context.fillRect(0, 0, canvas.width, stripeWidth);
-    innerPattern = context.createPattern(canvas, 'repeat');
-
-    var outerCanvas = document.createElement('canvas');
-    var outerContext = outerCanvas.getContext('2d');
-    outerCanvas.width = screen.width;
-    outerCanvas.height = screen.height;
-    outerContext.rotate((Math.PI / 180) * angle);
-    outerContext.translate(-(screen.width/2), -(screen.height/2));
-    outerContext.fillStyle = innerPattern;
-    outerContext.fillRect(0,0,screen.width,screen.height);
-
-    return outerContext.createPattern(outerCanvas, 'no-repeat');
-};
+/**
+ * @template T
+ * @param {function(): (T | Promise<T>)} getter A function that returns a value or a promise for a value.
+ * @return {Promise<T>} A promise for the value.
+ */
+export function toPromise(getter) {
+  function promiseGetter() {
+    let value;
+    try {
+      value = getter();
+    } catch (err) {
+      return Promise.reject(err);
+    }
+    if (value instanceof Promise) {
+      return value;
+    }
+    return Promise.resolve(value);
+  }
+  return promiseGetter();
+}
