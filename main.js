@@ -224,6 +224,34 @@ function init(){
   map.addControl(new ol.control.Control({
     element: locate}));
 
+  
+
+  
+  const wmsSource = new ol.source.ImageWMS({
+    url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+    params: {'LAYERS': 'droughtNS:testdata'},
+    ratio: 1,
+    serverType: 'geoserver',});
+  
+  const legendlayer = new ol.layer.Image({
+    //extent: [-13884991, 2870341, -7455066, 6338219],
+    source: wmsSource,
+  });
+
+  const updateLegend = function (resolution) {
+    const graphicUrl = wmsSource.getLegendUrl(resolution);
+    const img = document.getElementById('legend');
+    img.src = graphicUrl;};
+
+  // Initial legend
+  const resolution = map.getView().getResolution();
+  updateLegend(resolution);
+  
+  // Update the legend when the resolution changes
+  map.getView().on('change:resolution', function (event) {
+    const resolution = event.target.getResolution();
+    updateLegend(resolution);});
+
 
 
 }
