@@ -35,7 +35,7 @@ const map = new ol.Map({
         title: 'ปริมาณน้ำฝนสะสม 7 วัน',
         opacity: 0.6
     }),
-    
+
     new ol.layer.Tile({
       source: new ol.source.TileWMS({
         url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
@@ -92,8 +92,8 @@ locate.innerHTML = '<button title="Locate me">◎</button>';
 locate.addEventListener('click', function() {
   if (!source.isEmpty()) {
     map.getView().fit(source.getExtent(), {
-      maxZoom: 18,
-      duration: 500
+      maxZoom: 12,
+      duration: 1000
      });}
     });
 map.addControl(new ol.control.Control({element: locate}));
@@ -104,3 +104,27 @@ var layerSwitcher = new ol.control.LayerSwitcher({
   groupSelectStyle: 'group'
 });
 map.addControl(layerSwitcher)
+
+const wmsSource = new ol.source.ImageWMS({
+  url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+  params: {'LAYERS': 'droughtNS:testdata'},
+  ratio: 1,
+  serverType: 'geoserver',});
+
+const legendlayer = new ol.layer.Image({
+  source: wmsSource,
+});
+
+const updateLegend = function (resolution) {
+  const graphicUrl = wmsSource.getLegendUrl(resolution);
+  const img = document.getElementById('legend');
+  img.src = graphicUrl;};
+
+// Initial legend
+const resolution = map.getView().getResolution();
+updateLegend(resolution);
+
+// Update the legend when the resolution changes
+map.getView().on('change:resolution', function (event) {
+  const resolution = event.target.getResolution();
+  updateLegend(resolution);});
