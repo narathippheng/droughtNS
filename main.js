@@ -97,25 +97,6 @@ function init(){
   })
   map.addControl(scaleLineControl)
 
-
-
-  navigator.geolocation.watchPosition(function(pos) {
-    const coords = [pos.coords.longitude, pos.coords.latitude];
-    const accuracy = ol.geom.Polygon.circular(coords, pos.coords.accuracy);
-  }, function(error) {
-    alert(`ERROR: ${error.message}`);
-  }, {
-    enableHighAccuracy: true
-  });
-
-  const locate = document.createElement('js-map');
-  locate.className = 'ol-control ol-unselectable locate';
-  locate.innerHTML = '<button title="Locate me">◎</button>';
-  locate.addEventListener('click', function () {});
-  map.addControl(new ol.control.Control({element: locate}));
-
-
-
     // สร้าง layer swithcer
     var layerSwitcher = new ol.control.LayerSwitcher({
       activationMode: 'click',
@@ -123,10 +104,6 @@ function init(){
       groupSelectStyle: 'group'
     });
     map.addControl(layerSwitcher)
-
-
-
-  
 
 
   // layer switcher ให้สามารถเปิดปิด ข้อมูลหนึ่งเมื่อเลือกไปยังข้อมูลหนึ่ง
@@ -206,5 +183,48 @@ function init(){
       })
       this.checked ? tileRasterLayer.setVisible(true) : tileRasterLayer.setVisible(false)
     })
-  }}
+  }
+
+  const source = new ol.source.Vector();
+  const layer = new ol.layer.Vector({
+    source: source,
+  });
+  map.addLayer(layer)
+
+  navigator.geolocation.watchPosition(
+    function (pos) {
+      const coords = [pos.coords.longitude, pos.coords.latitude];
+      const accuracy = ol.geom.Polygon.circular (coords, pos.coords.accuracy);
+      source.clear(true);
+      source.addFeatures([
+        new ol.Feature(
+          accuracy.transform('EPSG:4326', map.getView().getProjection())
+        ),
+        new ol.Feature(new ol.geom.Point(ol.proj.fromLonLat(coords))),
+      ]);
+    },
+    function (error) {
+      alert(`ERROR: ${error.message}`);
+    },
+    {
+      enableHighAccuracy: true,
+    }
+  );
+
+  const locate = document.createElement('div');
+  locate.className = 'ol-control ol-unselectable locate';
+  locate.innerHTML = '<button title="Locate me">◎</button>';
+  locate.addEventListener('click', function() {
+    if (!source.isEmpty()) {
+      map.getView().fit(source.getExtent(), {
+        maxZoom: 18,
+        duration: 500
+      });}
+    });
+  map.addControl(new ol.control.Control({
+    element: locate}));
+
+
+
+}
 
