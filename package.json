@@ -1,5 +1,5 @@
 {
-  "name": "getfeatureinfo-tile",
+  "name": "wms-tiled",
   "dependencies": {
     "ol": "9.1.0"
   },
@@ -12,3 +12,4 @@
     "build": "vite build"
   }
 }
+
