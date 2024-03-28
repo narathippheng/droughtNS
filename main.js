@@ -61,11 +61,12 @@ const scaleLineControl = new ol.control.ScaleLine({
 })
 map.addControl(scaleLineControl)
 
+
 const source = new ol.source.Vector();
   const layer = new ol.layer.Vector({
     source: source,
   });
-  map.addLayer(layer)
+map.addLayer(layer)
 
 navigator.geolocation.watchPosition(
   function (pos) {
@@ -128,3 +129,10 @@ updateLegend(resolution);
 map.getView().on('change:resolution', function (event) {
   const resolution = event.target.getResolution();
   updateLegend(resolution);});
+
+
+var Legend = new ol.control.Legend({
+  title:'symbology',
+  size: 10,
+});
+map.addControl(Legend)
