@@ -1,70 +1,66 @@
-const map = new ol.Map({
-  view: new ol.View({
-    center: [11140170.116488684,1769043.5804528007],
-    zoom: 9,
-    maxZoom: 20,
-    minZoom: 3
+var basemap = new ol.layer.Tile({
+  source: new ol.source.OSM(),
+  visible: true,
+  layers: 'basemap',
+  title: 'แผนที่ฐาน'});
+
+var droughtNS = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+  url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+  params: {'LAYERS':'droughtNS:testdata', 'TILED': true},
+  serverType: 'geoserver',
+  layers: 'drought_ns',
+  transition: 0
   }),
+  visible: true,
+  title: 'พื้นที่เสี่ยงภัยแล้ง',
+  opacity: 0.7
+});
 
-//กำหนดชั้นข้อมูลแผนที่ที่ต้องการนำมาแสดงเป็นแผนที่ฐานโดยกำหนดให้ทำการแสดงผลโดยปริยาย
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.OSM(),
+//
+var rainfall7d = new ol.layer.Tile({
+source: new ol.source.TileWMS({
+  url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+  params: {'LAYERS': 'droughtNS:Rainday7D', 'TILED': true},
+  serverType: 'geoserver',
+  layers: 'rainfall7',
+  transition: 0
+  }),
+  visible: false,
+  title: 'ปริมาณน้ำฝนสะสม 7 วัน',
+  opacity: 0.7
+});
+
+var AP_NS = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+      params: {'LAYERS': 'droughtNS:AP_NS', 'TILED': true},
+      serverType: 'geoserver',
+      transition: 0,
+      layers: 'AP_NS',
+      }),
       visible: true,
-      title: 'แผนที่ฐาน'
-    }),
-    new ol.layer.Tile({
-      source: new ol.source.TileWMS({
-        url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-        params: {'LAYERS':'droughtNS:testdata', 'TILED': true},
-        serverType: 'geoserver',
-        transition: 0
-        }),
-        visible: true,
-        title: 'พื้นที่เสี่ยงภัยแล้ง',
-        opacity: 0.7
-    }),
-    new ol.layer.Tile({
-      source: new ol.source.TileWMS({
-        url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-        params: {'LAYERS': 'droughtNS:Rainday7D', 'TILED': true},
-        serverType: 'geoserver',
-        transition: 0
-        }),
-        visible: false,
-        title: 'ปริมาณน้ำฝนสะสม 7 วัน',
-        opacity: 0.6
-    }),
+      zIndex: 1,
+      opacity: 1,
+      title: 'ขอบเขตอำเภอ'
+    });
 
-    new ol.layer.Tile({
-      source: new ol.source.TileWMS({
-        url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-        params: {'LAYERS': 'droughtNS:AP_NS', 'TILED': true},
-        serverType: 'geoserver',
-        transition: 0,
-        }),
-        visible: true,
-        zIndex: 1,
-        opacity: 1,
-        title: 'ขอบเขตอำเภอ'
-    })
-  ],
-//จุดมุ่งหมายคือเชื่อมโยงกับjs-mapในไฟล์index.html
-  target: 'js-map'
-})
+// The map
+var map = new ol.Map ({
+  target: 'js-map',
+  view: new ol.View ({
+    zoom: 8,
+    center: [11140170.116488684,1769043.5804528007]
+  }),
+  layers: [basemap,droughtNS,rainfall7d,AP_NS]
+});
 
-const scaleLineControl = new ol.control.ScaleLine({
-  units: 'metric',
-  minWidth: 100,
-  bar: true,
-  text: true,
-})
-map.addControl(scaleLineControl)
-
+map.addControl(new ol.control.LayerSwitcher({ collapsed: true }))
 
 const source = new ol.source.Vector();
   const layer = new ol.layer.Vector({
     source: source,
+    title: 'ตำแหน่งของฉัน'
   });
 map.addLayer(layer)
 
@@ -99,40 +95,29 @@ locate.addEventListener('click', function() {
     });
 map.addControl(new ol.control.Control({element: locate}));
 
-var layerSwitcher = new ol.control.LayerSwitcher({
-  activationMode: 'click',
-  starActive: false,
-  groupSelectStyle: 'group'
+// Define a new legend
+var legend = new ol.legend.Legend({ 
+  title: 'สัญลักษณ์แผนที่',
+  margin: 10,
+  maxWidth: 300
 });
-map.addControl(layerSwitcher)
-
-const wmsSource = new ol.source.ImageWMS({
-  url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-  params: {'LAYERS': 'droughtNS:testdata'},
-  ratio: 1,
-  serverType: 'geoserver',});
-
-const legendlayer = new ol.layer.Image({
-  source: wmsSource,
+var legendCtrl = new ol.control.Legend({
+  legend: legend,
+  collapsed: false
 });
+map.addControl(legendCtrl);
 
-const updateLegend = function (resolution) {
-  const graphicUrl = wmsSource.getLegendUrl(resolution);
-  const img = document.getElementById('legend');
-  img.src = graphicUrl;};
+  // New legend associated with a layer
+var layerLegend = new ol.legend.Legend({ layer: droughtNS })
+layerLegend.addItem(new ol.legend.Image({
+  title: 'พื้นที่เสี่ยงภัยแล้ง',
+  src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:testdata"
+}))
+legend.addItem(layerLegend)
 
-// Initial legend
-const resolution = map.getView().getResolution();
-updateLegend(resolution);
-
-// Update the legend when the resolution changes
-map.getView().on('change:resolution', function (event) {
-  const resolution = event.target.getResolution();
-  updateLegend(resolution);});
-
-
-var Legend = new ol.control.Legend({
-  title:'symbology',
-  size: 10,
-});
-map.addControl(Legend)
+var layerLegend = new ol.legend.Legend({ layer: rainfall7d })
+layerLegend.addItem(new ol.legend.Image({
+title: 'ปริมาณน้ำฝน',
+src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:Rainday7D"
+}))
+legend.addItem(layerLegend)
