@@ -40,7 +40,7 @@ var map = new ol.Map ({
     zoom: 9,
     center: [11140170.116488684,1769043.5804528007]
   }),
-  layers: [basemap,droughtNS,AP_NS]
+  layers: [basemap,droughtNS,AP_NS,]
 });
 
 map.addControl(new ol.control.LayerSwitcher({ collapsed: true }))

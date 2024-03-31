@@ -15,7 +15,7 @@ var rainfall7d = new ol.layer.Tile({
 var Airtem = new ol.layer.Tile({
     source: new ol.source.TileWMS({
       url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-      params: {'LAYERS': 'droughtNS:อุณหภูมิอากาศ', 'TILED': true},
+      params: {'LAYERS': 'droughtNS:A_TEM', 'TILED': true},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
       layers: 'Airtem',
@@ -132,6 +132,6 @@ legend.addItem(layerLegend);
 var layerLegend = new ol.legend.Legend({ layer: Airtem })
 layerLegend.addItem(new ol.legend.Image({
 title: 'อุณหภูมิอากาศ',
-src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:อุณหภูมิอากาศ"
+src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:A_TEM"
 }))
 legend.addItem(layerLegend);
