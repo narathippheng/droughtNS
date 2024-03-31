@@ -18,18 +18,6 @@ var droughtNS = new ol.layer.Tile({
 });
 
 //
-var rainfall7d = new ol.layer.Tile({
-source: new ol.source.TileWMS({
-  url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-  params: {'LAYERS': 'droughtNS:Rainday7D', 'TILED': true},
-  serverType: 'geoserver',
-  layers: 'rainfall7',
-  transition: 0
-  }),
-  visible: false,
-  title: 'ปริมาณน้ำฝนสะสม 7 วัน',
-  opacity: 0.7
-});
 
 var AP_NS = new ol.layer.Tile({
     source: new ol.source.TileWMS({
@@ -49,10 +37,10 @@ var AP_NS = new ol.layer.Tile({
 var map = new ol.Map ({
   target: 'js-map',
   view: new ol.View ({
-    zoom: 8,
+    zoom: 9,
     center: [11140170.116488684,1769043.5804528007]
   }),
-  layers: [basemap,droughtNS,rainfall7d,AP_NS]
+  layers: [basemap,droughtNS,AP_NS]
 });
 
 map.addControl(new ol.control.LayerSwitcher({ collapsed: true }))
@@ -112,12 +100,5 @@ var layerLegend = new ol.legend.Legend({ layer: droughtNS })
 layerLegend.addItem(new ol.legend.Image({
   title: 'พื้นที่เสี่ยงภัยแล้ง',
   src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:testdata"
-}))
-legend.addItem(layerLegend)
-
-var layerLegend = new ol.legend.Legend({ layer: rainfall7d })
-layerLegend.addItem(new ol.legend.Image({
-title: 'ปริมาณน้ำฝน',
-src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:Rainday7D"
 }))
 legend.addItem(layerLegend)

@@ -7,9 +7,43 @@ body{ width: 100%;
     margin: 5rem, 5rem, 5rem, 5rem;
 }
 
+.navbar{ 
+    width: 100%;
+    background-color:beige;
+}
+
+.navbar-brand{
+    padding-left: 20px;
+} 
+
+.nav-link{
+    padding-left: 2rem;
+}
+
 .map{
     width: 100%;
-    height: 90%;
+    height: 85%
+}
+
+.weather-map{
+    width: 100%;
+    height: 85%;
+}
+
+.foot{
+    width: 100%;
+    height: 10%;
+    position:static;
+    text-align: center;
+    padding-top: 0.2rem;
+}
+
+.nsruolgo{
+    display: block;
+    width: 10%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .header{
@@ -111,19 +145,15 @@ body{ width: 100%;
     font-weight: 500;
 }
 
-.footer{
-    background-color: orangered;
-    color: black;
-    text-align: center;
-    padding-bottom: 0.5rem;
-}
-
-.sidebar{
-    font-style: normal;
-    margin-right: 0.3rem;
-}
 
 .locate {
     top: 6em;
     left: .5em;
   }
+
+.map-info{
+    position: absolute;
+    padding-top: 20rem;
+    padding-left: 10rem;
+    z-index: 2;
+}
