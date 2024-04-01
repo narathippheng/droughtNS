@@ -16,6 +16,19 @@ var basemap = new ol.layer.Tile({
     title: 'ดัชนี NDWI',
     opacity: 1
   });
+
+var NDVI = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+    url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+    params: {'LAYERS':'droughtNS:NDVI', 'TILED': true},
+    serverType: 'geoserver',
+    layers: 'NDVI',
+    transition: 0
+    }),
+    visible: true,
+    title: 'ดัชนี NDVI',
+    opacity: 1
+  }); 
   
   //
   
@@ -40,7 +53,7 @@ var basemap = new ol.layer.Tile({
       zoom: 9,
       center: [11140170.116488684,1769043.5804528007]
     }),
-    layers: [basemap,NDWI,AP_NS,]
+    layers: [basemap,NDWI,NDVI,AP_NS,]
   });
   
   map.addControl(new ol.control.LayerSwitcher({ collapsed: false }))
@@ -102,5 +115,12 @@ var basemap = new ol.layer.Tile({
   layerLegend.addItem(new ol.legend.Image({
     title: 'ดัชนีความชื้น NDWI',
     src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:NDWI"
+  }))
+  legend.addItem(layerLegend)
+
+  var layerLegend = new ol.legend.Legend({ layer: NDVI })
+  layerLegend.addItem(new ol.legend.Image({
+    title: 'ดัชนีความชื้น NDVI',
+    src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:NDVI"
   }))
   legend.addItem(layerLegend)
