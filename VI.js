@@ -100,7 +100,6 @@ var NDVI = new ol.layer.Tile({
   
   // Define a new legend
   var legend = new ol.legend.Legend({ 
-    title: 'สัญลักษณ์แผนที่',
     margin: 10,
     maxWidth: 300
   });

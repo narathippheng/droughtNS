@@ -85,7 +85,6 @@ map.addControl(new ol.control.Control({element: locate}));
 
 // Define a new legend
 var legend = new ol.legend.Legend({ 
-  title: 'สัญลักษณ์แผนที่',
   margin: 10,
   maxWidth: 300
 });
