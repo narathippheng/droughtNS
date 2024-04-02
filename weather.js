@@ -21,10 +21,26 @@ var Airtem = new ol.layer.Tile({
       layers: 'Airtem',
       transition: 0
       }),
-      visible: true,
+      visible: false,
       title: 'อุณหภูมิอากาศ',
       opacity: 1
     });
+
+var RH = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+      params: {'LAYERS': 'droughtNS:RH', 'TILED': true},
+      serverType: 'geoserver',
+      crossOrigin: 'anonymous',
+      layers: 'RH',
+      transition: 0
+      }),
+      visible: false,
+      title: 'ความชื้นสัมพัทธ์',
+      opacity: 1
+    });
+
+
 
 var AP_NS = new ol.layer.Tile({
     source: new ol.source.TileWMS({
@@ -56,7 +72,7 @@ const view = new ol.View({
   });
   
 const map = new ol.Map({
-    layers: [basemap1, rainfall7d, Airtem, AP_NS],
+    layers: [basemap1, rainfall7d, Airtem, RH, AP_NS],
     target: 'weather-map',
     view: view,
  });
@@ -123,14 +139,21 @@ map.addControl(legendCtrl);
 
 var layerLegend = new ol.legend.Legend({ layer: rainfall7d })
 layerLegend.addItem(new ol.legend.Image({
-title: 'ปริมาณน้ำฝน',
+title: 'ปริมาณน้ำฝนสะสม 7 วัน',
 src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:Rainday7D"
 }))
 legend.addItem(layerLegend);
 
 var layerLegend = new ol.legend.Legend({ layer: Airtem })
 layerLegend.addItem(new ol.legend.Image({
-title: 'อุณหภูมิอากาศ',
+title: 'อุณหภูมิอากาศเฉลี่ยรายวัน',
 src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:A_TEM"
+}))
+legend.addItem(layerLegend);
+
+var layerLegend = new ol.legend.Legend({ layer: RH })
+layerLegend.addItem(new ol.legend.Image({
+title: 'ความชื้นสัมพัทธ์เฉลี่ยรายวัน',
+src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:RH"
 }))
 legend.addItem(layerLegend);

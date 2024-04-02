@@ -12,7 +12,7 @@ var basemap = new ol.layer.Tile({
     layers: 'NDWI',
     transition: 0
     }),
-    visible: true,
+    visible: false,
     title: 'ดัชนี NDWI',
     opacity: 1
   });
@@ -119,7 +119,7 @@ var NDVI = new ol.layer.Tile({
 
   var layerLegend = new ol.legend.Legend({ layer: NDVI })
   layerLegend.addItem(new ol.legend.Image({
-    title: 'ดัชนีความชื้น NDVI',
+    title: 'ดัชนีพืชพรรณ NDVI',
     src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:NDVI"
   }))
   legend.addItem(layerLegend)
