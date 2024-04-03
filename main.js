@@ -12,8 +12,21 @@ var droughtNS = new ol.layer.Tile({
   layers: 'drought_ns',
   transition: 0
   }),
-  visible: true,
+  visible: false,
   title: 'พื้นที่เสี่ยงภัยแล้ง',
+  opacity: 0.7
+});
+
+var D_droughtNS = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+  url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+  params: {'LAYERS':'droughtNS:Daily_Drought', 'TILED': true},
+  serverType: 'geoserver',
+  layers: 'drought_ns',
+  transition: 0
+  }),
+  visible: true,
+  title: 'พื้นที่เสี่ยงภัยแล้งวันนี้',
   opacity: 0.7
 });
 
@@ -40,7 +53,7 @@ var map = new ol.Map ({
     zoom: 9,
     center: [11140170.116488684,1769043.5804528007]
   }),
-  layers: [basemap,droughtNS,AP_NS,]
+  layers: [basemap,droughtNS,D_droughtNS,AP_NS,]
 });
 
 map.addControl(new ol.control.LayerSwitcher({ collapsed: true }))
@@ -97,7 +110,15 @@ map.addControl(legendCtrl);
   // New legend associated with a layer
 var layerLegend = new ol.legend.Legend({ layer: droughtNS })
 layerLegend.addItem(new ol.legend.Image({
-  title: 'พื้นที่เสี่ยงภัยแล้ง',
+  title: 'ภาพรวมภัยแล้งตลอดปี',
   src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:testdata"
+}))
+legend.addItem(layerLegend)
+
+  // New legend associated with a layer
+var layerLegend = new ol.legend.Legend({ layer: D_droughtNS })
+layerLegend.addItem(new ol.legend.Image({
+  title: 'ภัยแล้งวันนี้',
+  src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:Daily_Drought"
 }))
 legend.addItem(layerLegend)

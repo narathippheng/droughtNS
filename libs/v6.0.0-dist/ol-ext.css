@@ -2562,7 +2562,8 @@ ul.ol-legend {
 }
 ul.ol-legend li.ol-title {
   text-align: center;
-  font-weight: bold;
+  font-weight:600;
+  font-size: smaller;
 }
 ul.ol-legend li.ol-title > div:first-child {
   width: 0!important;
