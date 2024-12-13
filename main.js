@@ -46,6 +46,20 @@ var AP_NS = new ol.layer.Tile({
       title: 'ขอบเขตอำเภอ'
     });
 
+var TB_NS = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+      params: {'LAYERS': 'droughtNS:TB_NS', 'TILED': true},
+      serverType: 'geoserver',
+      transition: 0,
+      layers: 'TB_NS',
+      }),
+      visible: false,
+      zIndex: 1,
+      opacity: 1,
+      title: 'ขอบเขตตำบล'
+      });
+
 // The map
 var map = new ol.Map ({
   target: 'js-map',
@@ -53,7 +67,7 @@ var map = new ol.Map ({
     zoom: 9,
     center: [11140170.116488684,1769043.5804528007]
   }),
-  layers: [basemap,droughtNS,D_droughtNS,AP_NS,]
+  layers: [basemap,droughtNS,D_droughtNS,AP_NS,TB_NS]
 });
 
 map.addControl(new ol.control.LayerSwitcher({ collapsed: true }))
