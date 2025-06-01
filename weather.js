@@ -1,7 +1,10 @@
 var rainfall7d = new ol.layer.Tile({
     source: new ol.source.TileWMS({
-      url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-      params: {'LAYERS': 'droughtNS:Rainday7D', 'TILED': true},
+      url:'http://143.198.193.255:8080/geoserver/droughtNS/wms?',
+      params: {'LAYERS': "droughtNS:Rainday7D"
+        , 'TILED': true,
+        'FORMAT': 'image/png',
+        'VERSION': '1.1.1'},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
       layers: 'rainfall7',
@@ -140,7 +143,7 @@ map.addControl(legendCtrl);
 var layerLegend = new ol.legend.Legend({ layer: rainfall7d })
 layerLegend.addItem(new ol.legend.Image({
 title: 'ปริมาณน้ำฝนสะสม 7 วัน',
-src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:Rainday7D"
+src: "http://143.198.193.255:8080/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:Rainday7D"
 }))
 legend.addItem(layerLegend);
 
