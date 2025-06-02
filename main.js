@@ -30,6 +30,20 @@ var D_droughtNS = new ol.layer.Tile({
   opacity: 0.7
 });
 
+var FloodNS = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+  url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+  params: {'LAYERS':'droughtNS:sum_floodNS', 'TILED': true},
+  serverType: 'geoserver',
+  layers: 'flood_ns',
+  transition: 0
+  }),
+  visible: false,
+  title: 'พื้นที่เสี่ยงน้ำท่วม',
+  opacity: 0.7
+});
+
+
 //
 
 var AP_NS = new ol.layer.Tile({
@@ -67,7 +81,7 @@ var map = new ol.Map ({
     zoom: 9,
     center: [11140170.116488684,1769043.5804528007]
   }),
-  layers: [basemap,droughtNS,D_droughtNS,AP_NS,TB_NS]
+  layers: [basemap,droughtNS,D_droughtNS,FloodNS,AP_NS,TB_NS]
 });
 
 map.addControl(new ol.control.LayerSwitcher({ collapsed: true }))
