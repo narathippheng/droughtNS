@@ -43,6 +43,20 @@ var FloodNS = new ol.layer.Tile({
   opacity: 0.7
 });
 
+var Fill_Water = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+  url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+  params: {'LAYERS':'droughtNS:fill_water', 'TILED': true},
+  serverType: 'geoserver',
+  layers: 'Fill_Water',
+  transition: 0
+  }),
+  visible: false,
+  title: 'การเติมน้ำใต้ดิน',
+  opacity: 0.7
+});
+
+
 
 //
 
@@ -81,7 +95,7 @@ var map = new ol.Map ({
     zoom: 9,
     center: [11140170.116488684,1769043.5804528007]
   }),
-  layers: [basemap,droughtNS,D_droughtNS,FloodNS,AP_NS,TB_NS]
+  layers: [basemap,droughtNS,D_droughtNS,FloodNS,Fill_Water,AP_NS,TB_NS]
 });
 
 map.addControl(new ol.control.LayerSwitcher({ collapsed: true }))
@@ -148,5 +162,21 @@ var layerLegend = new ol.legend.Legend({ layer: D_droughtNS })
 layerLegend.addItem(new ol.legend.Image({
   title: 'ภัยแล้งวันนี้',
   src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:Daily_Drought"
+}))
+legend.addItem(layerLegend)
+
+  // New legend associated with a layer
+var layerLegend = new ol.legend.Legend({ layer: Fill_Water})
+layerLegend.addItem(new ol.legend.Image({
+  title: 'พื้นที่เหมาะสมในการเติมน้ำใต้ดิน',
+  src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:fill_water"
+}))
+legend.addItem(layerLegend)
+
+  // New legend associated with a layer
+var layerLegend = new ol.legend.Legend({ layer: FloodNS})
+layerLegend.addItem(new ol.legend.Image({
+  title: 'พื้นที่เสี่ยงน้ำท่วม',
+  src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:sum_floodNS"
 }))
 legend.addItem(layerLegend)
