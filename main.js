@@ -153,7 +153,7 @@ map.addControl(legendCtrl);
 var layerLegend = new ol.legend.Legend({ layer: droughtNS })
 layerLegend.addItem(new ol.legend.Image({
   title: 'ภาพรวมภัยแล้งตลอดปี',
-  src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:testdata"
+  src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:DROUGHT_NS"
 }))
 legend.addItem(layerLegend)
 
