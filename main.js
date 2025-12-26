@@ -7,7 +7,7 @@ var basemap = new ol.layer.Tile({
 var droughtNS = new ol.layer.Tile({
   source: new ol.source.TileWMS({
   url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-  params: {'LAYERS':'droughtNS:testdata', 'TILED': true},
+  params: {'LAYERS':'droughtNS:DROUGHT_NS', 'TILED': true},
   serverType: 'geoserver',
   layers: 'drought_ns',
   transition: 0
