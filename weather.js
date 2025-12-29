@@ -23,7 +23,7 @@ var Airtem = new ol.layer.Tile({
       }),
       visible: false,
       title: 'อุณหภูมิอากาศ',
-      opacity: 1
+      opacity: 0.7
     });
 
 var RH = new ol.layer.Tile({
