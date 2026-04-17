@@ -6,7 +6,7 @@ var basemap = new ol.layer.Tile({
   
   var NDWI = new ol.layer.Tile({
     source: new ol.source.TileWMS({
-    url: 'http://143.198.193.255:8080/geoserver/nsru_drought/wms?',
+    url: 'https://droughtnsru.com/geoserver/nsru_drought/wms?',
     params: {'LAYERS':'nsru_drought:NDWI', 'TILED': true},
     serverType: 'geoserver',
     layers: 'NDWI',
@@ -19,8 +19,8 @@ var basemap = new ol.layer.Tile({
 
 var NDVI = new ol.layer.Tile({
     source: new ol.source.TileWMS({
-    url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-    params: {'LAYERS':'droughtNS:NDVI', 'TILED': true},
+    url: 'https://droughtnsru.com/geoserver/nsru_drought/wms?',
+    params: {'LAYERS':'nsru_drought:NDVI', 'TILED': true},
     serverType: 'geoserver',
     layers: 'NDVI',
     transition: 0
@@ -113,13 +113,13 @@ var NDVI = new ol.layer.Tile({
   var layerLegend = new ol.legend.Legend({ layer: NDWI })
   layerLegend.addItem(new ol.legend.Image({
     title: 'ดัชนีความชื้น NDWI',
-    src: "http://143.198.193.255:8080/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:NDWI"
+    src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:NDWI"
   }))
   legend.addItem(layerLegend)
 
   var layerLegend = new ol.legend.Legend({ layer: NDVI })
   layerLegend.addItem(new ol.legend.Image({
     title: 'ดัชนีพืชพรรณ NDVI',
-    src: "http://143.198.193.255:8080/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:NDVI"
+    src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:NDVI"
   }))
   legend.addItem(layerLegend)
