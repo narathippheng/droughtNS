@@ -6,7 +6,7 @@ var basemap = new ol.layer.Tile({
 
 var droughtNS = new ol.layer.Tile({
   source: new ol.source.TileWMS({
-  url: 'http://143.198.193.255:8080/geoserver/nsru_drought/wms?',
+  url: 'https://droughtnsru.com/geoserver/nsru_drought/wms?',
   params: {'LAYERS':'nsru_drought:Drought', 'TILED': true},
   serverType: 'geoserver',
   layers: 'drought_ns',
@@ -19,7 +19,7 @@ var droughtNS = new ol.layer.Tile({
 
 var D_droughtNS = new ol.layer.Tile({
   source: new ol.source.TileWMS({
-  url: 'http://143.198.193.255:8080/geoserver/nsru_drought/wms?',
+  url: 'https://droughtnsru.com/geoserver/nsru_drought/wms?',
   params: {'LAYERS':'nsru_drought:Daily_Drought', 'TILED': true},
   serverType: 'geoserver',
   layers: 'drought_ns',
@@ -153,7 +153,7 @@ map.addControl(legendCtrl);
 var layerLegend = new ol.legend.Legend({ layer: droughtNS })
 layerLegend.addItem(new ol.legend.Image({
   title: 'ภาพรวมภัยแล้งตลอดปี',
-  src: "http://143.198.193.255:8080/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:Drought"
+  src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:Drought"
 }))
 legend.addItem(layerLegend)
 
@@ -161,7 +161,7 @@ legend.addItem(layerLegend)
 var layerLegend = new ol.legend.Legend({ layer: D_droughtNS })
 layerLegend.addItem(new ol.legend.Image({
   title: 'ภัยแล้งวันนี้',
-  src: "http://143.198.193.255:8080/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:Daily_Drought"
+  src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:Daily_Drought"
 }))
 legend.addItem(layerLegend)
 
