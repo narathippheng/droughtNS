@@ -16,7 +16,8 @@ var NDWI = new ol.layer.Tile({
     url: 'https://droughtnsru.com/geoserver/nsru_drought/wms?',
     params: {
       'LAYERS': 'nsru_drought:NDWI',
-      'TILED': true
+      'TILED': true,
+      'FORMAT': 'image/png8'
     },
     serverType: 'geoserver',
     transition: 0
@@ -34,7 +35,8 @@ var NDVI = new ol.layer.Tile({
     url: 'https://droughtnsru.com/geoserver/nsru_drought/wms?',
     params: {
       'LAYERS': 'nsru_drought:NDVI',
-      'TILED': true
+      'TILED': true,
+      'FORMAT': 'image/png8'
     },
     serverType: 'geoserver',
     transition: 0
@@ -49,7 +51,7 @@ var NDVI = new ol.layer.Tile({
 // =========================
 var AP_NS = new ol.layer.Tile({
   source: new ol.source.TileWMS({
-    url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+    url: 'https://droughtnsru.com/geoserver/nsru_drought/wms?',
     params: {
       'LAYERS': 'nsru_drought:AP_NS',
       'TILED': true
