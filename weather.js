@@ -1,7 +1,7 @@
 var rainfall7d = new ol.layer.Tile({
     source: new ol.source.TileWMS({
       url:'https://droughtnsru.com/geoserver/nsru_drought/wms?',
-      params: {'LAYERS': "nsru_drought:Rainday7D", 'TILED': true,},
+      params: {'LAYERS': "nsru_drought:Rainday7D", 'TILED': true,'FORMAT': 'image/png8'},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
       layers: 'rainfall7',
@@ -15,7 +15,7 @@ var rainfall7d = new ol.layer.Tile({
 var Airtem = new ol.layer.Tile({
     source: new ol.source.TileWMS({
       url:'https://droughtnsru.com/geoserver/nsru_drought/wms?',
-      params: {'LAYERS': 'nsru_drought:A_TEM', 'TILED': true},
+      params: {'LAYERS': 'nsru_drought:A_TEM', 'TILED': true,'FORMAT': 'image/png8'},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
       layers: 'Airtem',
@@ -29,7 +29,7 @@ var Airtem = new ol.layer.Tile({
 var RH = new ol.layer.Tile({
     source: new ol.source.TileWMS({
       url:'https://droughtnsru.com/geoserver/nsru_drought/wms?',
-      params: {'LAYERS': 'nsru_drought:RH', 'TILED': true},
+      params: {'LAYERS': 'nsru_drought:RH', 'TILED': true,'FORMAT': 'image/png8'},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
       layers: 'RH',
@@ -45,7 +45,7 @@ var RH = new ol.layer.Tile({
 var AP_NS = new ol.layer.Tile({
     source: new ol.source.TileWMS({
       url: 'https://droughtnsru.com/geoserver/nsru_drought/wms?',
-      params: {'LAYERS': 'nsru_drought:AP_NS', 'TILED': true},
+      params: {'LAYERS': 'nsru_drought:AP_NS', 'TILED': true,'FORMAT': 'image/png8'},
       serverType: 'geoserver',
       transition: 0,
       layers: 'AP_NS',
