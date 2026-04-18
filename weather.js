@@ -1,7 +1,7 @@
 var rainfall7d = new ol.layer.Tile({
     source: new ol.source.TileWMS({
-      url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-      params: {'LAYERS': "droughtNS:Rainday7D", 'TILED': true,},
+      url:'https://droughtnsru.com/geoserver/nsru_drought/wms?',
+      params: {'LAYERS': "nsru_drought:Rainday7D", 'TILED': true,},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
       layers: 'rainfall7',
@@ -14,7 +14,7 @@ var rainfall7d = new ol.layer.Tile({
 
 var Airtem = new ol.layer.Tile({
     source: new ol.source.TileWMS({
-      url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+      url:'https://droughtnsru.com/geoserver/nsru_drought/wms?',
       params: {'LAYERS': 'droughtNS:A_TEM', 'TILED': true},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
@@ -28,7 +28,7 @@ var Airtem = new ol.layer.Tile({
 
 var RH = new ol.layer.Tile({
     source: new ol.source.TileWMS({
-      url:'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
+      url:'https://droughtnsru.com/geoserver/nsru_drought/wms?',
       params: {'LAYERS': 'droughtNS:RH', 'TILED': true},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
@@ -44,8 +44,8 @@ var RH = new ol.layer.Tile({
 
 var AP_NS = new ol.layer.Tile({
     source: new ol.source.TileWMS({
-      url: 'https://landslide.gis-cdn.net/geoserver/droughtNS/wms?',
-      params: {'LAYERS': 'droughtNS:AP_NS', 'TILED': true},
+      url: 'https://droughtnsru.com/geoserver/nsru_drought/wms?',
+      params: {'LAYERS': 'nsru_drought:AP_NS', 'TILED': true},
       serverType: 'geoserver',
       transition: 0,
       layers: 'AP_NS',
@@ -140,20 +140,20 @@ map.addControl(legendCtrl);
 var layerLegend = new ol.legend.Legend({ layer: rainfall7d })
 layerLegend.addItem(new ol.legend.Image({
 title: 'ปริมาณน้ำฝนสะสม 7 วัน',
-src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:Rainday7D"
+src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:Rainday7D"
 }))
 legend.addItem(layerLegend);
 
 var layerLegend = new ol.legend.Legend({ layer: Airtem })
 layerLegend.addItem(new ol.legend.Image({
 title: 'อุณหภูมิอากาศเฉลี่ยรายวัน',
-src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:A_TEM"
+src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:A_TEM"
 }))
 legend.addItem(layerLegend);
 
 var layerLegend = new ol.legend.Legend({ layer: RH })
 layerLegend.addItem(new ol.legend.Image({
 title: 'ความชื้นสัมพัทธ์เฉลี่ยรายวัน',
-src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:RH"
+src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:RH"
 }))
 legend.addItem(layerLegend);
