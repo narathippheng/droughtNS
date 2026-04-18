@@ -15,7 +15,7 @@ var rainfall7d = new ol.layer.Tile({
 var Airtem = new ol.layer.Tile({
     source: new ol.source.TileWMS({
       url:'https://droughtnsru.com/geoserver/nsru_drought/wms?',
-      params: {'LAYERS': 'droughtNS:A_TEM', 'TILED': true},
+      params: {'LAYERS': 'nsru_drought:A_TEM', 'TILED': true},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
       layers: 'Airtem',
@@ -29,7 +29,7 @@ var Airtem = new ol.layer.Tile({
 var RH = new ol.layer.Tile({
     source: new ol.source.TileWMS({
       url:'https://droughtnsru.com/geoserver/nsru_drought/wms?',
-      params: {'LAYERS': 'droughtNS:RH', 'TILED': true},
+      params: {'LAYERS': 'nsru_drought:RH', 'TILED': true},
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
       layers: 'RH',
@@ -129,14 +129,6 @@ var legendCtrl = new ol.control.Legend({
 });
 map.addControl(legendCtrl);
 
-  // New legend associated with a layer
-//var layerLegend = new ol.legend.Legend({ layer: droughtNS })
-//layerLegend.addItem(new ol.legend.Image({
-  //title: 'พื้นที่เสี่ยงภัยแล้ง',
-  //src: "https://landslide.gis-cdn.net/geoserver/droughtNS/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:testdata"
-//}))
-//legend.addItem(layerLegend)
-
 var layerLegend = new ol.legend.Legend({ layer: rainfall7d })
 layerLegend.addItem(new ol.legend.Image({
 title: 'ปริมาณน้ำฝนสะสม 7 วัน',
@@ -147,13 +139,172 @@ legend.addItem(layerLegend);
 var layerLegend = new ol.legend.Legend({ layer: Airtem })
 layerLegend.addItem(new ol.legend.Image({
 title: 'อุณหภูมิอากาศเฉลี่ยรายวัน',
-src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:A_TEM"
+src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:A_TEM"
 }))
 legend.addItem(layerLegend);
 
 var layerLegend = new ol.legend.Legend({ layer: RH })
 layerLegend.addItem(new ol.legend.Image({
 title: 'ความชื้นสัมพัทธ์เฉลี่ยรายวัน',
-src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=droughtNS:RH"
+src: "https://droughtnsru.com/geoserver/nsru_drought/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=nsru_drought:RH"
 }))
 legend.addItem(layerLegend);
+
+// =========================
+// Popup
+// =========================
+var popupContainer = document.createElement('div');
+popupContainer.className = 'ol-popup';
+popupContainer.style.background = 'white';
+popupContainer.style.padding = '10px';
+popupContainer.style.borderRadius = '8px';
+popupContainer.style.border = '1px solid #ccc';
+popupContainer.style.minWidth = '200px';
+
+var popupContent = document.createElement('div');
+
+popupContainer.appendChild(popupContent);
+document.body.appendChild(popupContainer);
+
+var overlay = new ol.Overlay({
+  element: popupContainer,
+  autoPan: true,
+  autoPanAnimation: { duration: 250 }
+});
+
+map.addOverlay(overlay);
+
+function getValue(layer, name, coord, resolution, projection) {
+  return new Promise(function (resolve) {
+
+    var url = layer.getSource().getFeatureInfoUrl(
+      coord,
+      resolution,
+      projection,
+      {
+        'INFO_FORMAT': 'application/json',
+        'FEATURE_COUNT': 1
+      }
+    );
+
+    if (!url) {
+      resolve(null);
+      return;
+    }
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+
+        if (!data.features || data.features.length === 0) {
+          resolve(name + ": ไม่มีข้อมูล");
+          return;
+        }
+
+        var props = data.features[0].properties;
+        var value = null;
+
+        // รองรับหลายชื่อ field
+        if (props.GRAY_INDEX !== undefined) value = props.GRAY_INDEX;
+        else if (props.value !== undefined) value = props.value;
+        else if (props.band_1 !== undefined) value = props.band_1;
+        else {
+          var key = Object.keys(props)[0];
+          value = props[key];
+        }
+
+        if (value !== null) {
+          value = parseFloat(value).toFixed(2);
+          resolve(name + ": <b>" + value + "</b>");
+        } else {
+          resolve(name + ": ไม่มีข้อมูล");
+        }
+
+      })
+      .catch(() => resolve(name + ": error"));
+  });
+}
+
+map.on('singleclick', function (evt) {
+
+  var coord = evt.coordinate;
+  var resolution = map.getView().getResolution();
+  var projection = map.getView().getProjection();
+
+  var promises = [];
+
+  // เช็คว่าเปิด layer ไหน
+  if (rainfall7d.getVisible()) {
+    promises.push(getValue(rainfall7d, "ฝน 7 วัน (mm)", coord, resolution, projection));
+  }
+
+  if (Airtem.getVisible()) {
+    promises.push(getValue(Airtem, "อุณหภูมิ (°C)", coord, resolution, projection));
+  }
+
+  if (RH.getVisible()) {
+    promises.push(getValue(RH, "ความชื้น (%)", coord, resolution, projection));
+  }
+
+  // ถ้าไม่มี layer เปิด
+  if (promises.length === 0) {
+    popupContent.innerHTML = "<b>ไม่มี layer เปิดอยู่</b>";
+    overlay.setPosition(coord);
+    return;
+  }
+
+  Promise.all(promises).then(function (results) {
+    popupContent.innerHTML =
+      "<b>ค่าจุดที่คลิก</b><br>" + results.join("<br>");
+    overlay.setPosition(coord);
+  });
+
+});
+
+// =========================
+// Popup (มีปุ่มปิด)
+// =========================
+var popupContainer = document.createElement('div');
+popupContainer.className = 'ol-popup';
+popupContainer.style.position = 'absolute';
+popupContainer.style.background = 'white';
+popupContainer.style.padding = '10px';
+popupContainer.style.borderRadius = '8px';
+popupContainer.style.border = '1px solid #ccc';
+popupContainer.style.minWidth = '220px';
+popupContainer.style.boxShadow = '0 1px 4px rgba(0,0,0,0.2)';
+
+// ปุ่มปิด ❌
+var popupCloser = document.createElement('a');
+popupCloser.innerHTML = '✖';
+popupCloser.href = '#';
+popupCloser.style.position = 'absolute';
+popupCloser.style.top = '5px';
+popupCloser.style.right = '8px';
+popupCloser.style.textDecoration = 'none';
+popupCloser.style.fontWeight = 'bold';
+popupCloser.style.color = '#333';
+
+// content
+var popupContent = document.createElement('div');
+popupContent.style.marginTop = '15px';
+
+// append
+popupContainer.appendChild(popupCloser);
+popupContainer.appendChild(popupContent);
+document.body.appendChild(popupContainer);
+
+// overlay
+var overlay = new ol.Overlay({
+  element: popupContainer,
+  autoPan: true,
+  autoPanAnimation: { duration: 250 }
+});
+
+map.addOverlay(overlay);
+
+popupCloser.onclick = function () {
+  overlay.setPosition(undefined);  // 🔥 ซ่อน popup
+  popupCloser.blur();
+  return false;
+};
